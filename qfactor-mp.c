@@ -3,7 +3,8 @@
 #include<limits.h>
 #include<gmp.h>
 
-#define THRESH 4194304
+#define THRESH 8192
+#define TIMEOUT 512
 
 gmp_randstate_t randomfp;
 
@@ -19,6 +20,8 @@ void qf2( mpz_t x  )
 	mpz_init(tmp);
 	int i;
 	int facflag=1;
+	int times=0;
+	int ml=1;
 	for( i = 2 ; i < THRESH ; i++ )
 	{
 		while( mpz_tdiv_r_ui(tmp ,out , i ) == 0 )
@@ -57,12 +60,22 @@ void qf2( mpz_t x  )
 			mpz_tdiv_r(diff,out,s);
 			facflag=mpz_cmp(diff,zero);
 			mpz_tdiv_q(ff,s,two);
+			times=0;
+			ml=1;
 		}
 		mpz_sub(tmp,s,diff);
 		if ( mpz_cmp(tmp,diff) < 0 )
 			mpz_set(diff,tmp);
-		if ( mpz_cmp(diff,ff ) < 0 )
-			mpz_set(diff,ff);
+		if ( mpz_cmp_ui(diff,THRESH ) < 0 )
+			mpz_set_ui(diff,THRESH);
+		if( times < TIMEOUT )
+			times++;
+		else
+		{
+			ml++;
+			mpz_mul_ui(diff,diff,ml*ml);
+			times=0;
+		}
 
 	}
 }
