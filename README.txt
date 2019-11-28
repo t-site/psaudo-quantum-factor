@@ -27,3 +27,7 @@ BUG
 
 Always display answers in same time.
 I didnt use display buffer. I programmed do it time to time.
+
+--
+
+Save the autism rights in japan.
