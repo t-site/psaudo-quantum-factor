@@ -73,7 +73,7 @@ void qf2( mpz_t x  )
 		else
 		{
 			ml++;
-			mpz_mul_ui(diff,diff,ml*ml);
+			mpz_mul_ui(diff,diff,ml*ml*ml);
 			times=0;
 		}
 
