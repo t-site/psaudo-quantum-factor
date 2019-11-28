@@ -21,7 +21,7 @@ void qf2( mpz_t x  )
 	int i;
 	int facflag=1;
 	int times=0;
-	int ml=1;
+	int ml=0;
 	for( i = 2 ; i < THRESH ; i++ )
 	{
 		while( mpz_tdiv_r_ui(tmp ,out , i ) == 0 )
@@ -47,7 +47,10 @@ void qf2( mpz_t x  )
 		if( mpz_cmp(s,two) < 0 )
 			mpz_set(s,two);
 		else if( mpz_cmp(out,s) < 0 )
+		{
 			mpz_set( s,out);
+			ml=0;
+		}
 		
 		mpz_tdiv_r(diff,out,s);
 		facflag=mpz_cmp(diff,zero);
@@ -61,7 +64,7 @@ void qf2( mpz_t x  )
 			facflag=mpz_cmp(diff,zero);
 			mpz_tdiv_q(ff,s,two);
 			times=0;
-			ml=1;
+			ml=0;
 		}
 		mpz_sub(tmp,s,diff);
 		if ( mpz_cmp(tmp,diff) < 0 )
@@ -73,7 +76,7 @@ void qf2( mpz_t x  )
 		else
 		{
 			ml++;
-			mpz_pow_ui(diff,diff,ml);
+			mpz_add_ui(diff,diff,ml*ml);
 			times=0;
 		}
 
