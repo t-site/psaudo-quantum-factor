@@ -4,7 +4,7 @@
 #include<gmp.h>
 
 #define THRESH 8192
-#define TIMEOUT 512
+#define TIMEOUT 8192
 
 gmp_randstate_t randomfp;
 
@@ -76,7 +76,7 @@ void qf2( mpz_t x  )
 		else
 		{
 			ml++;
-			mpz_add_ui(diff,diff,ml*ml);
+			mpz_mul_ui(diff,diff,ml);
 			times=0;
 		}
 
