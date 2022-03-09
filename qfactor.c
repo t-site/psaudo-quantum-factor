@@ -26,19 +26,54 @@ void qf2( long long x  )
 	while( x != cx )
 	{
 		long long r;
+		long long up,down;
+		long long i;
 		fread(&r , sizeof(long long) , 1 , randomfp);
-		s +=( r % diff);
-		if( s < 2 )
-			s = 2;
-		while( out % s == 0 )
+		s +=( r %  diff );
+		if( s < THRESH )
+			s = THRESH;
+		up = out % s;
+		down = out % s;
+		for ( i = up ; i >= 2 && i <= out ; i++ )
 		{
-			printf("%lld ",s);
-			out /= s;
-			cx *= s;
+			int t = out % i;
+			if ( t >= up )
+			{
+				break;
+			}else
+			{
+				up = t;
+			}
+			while( out % i == 0 )
+			{
+				printf("%lld ",i);
+				out /= i;
+				cx *= i;
+				s = i;
+				diff = THRESH;
+			}
 		}
-		diff = out % s;
-		if ( ( s - diff ) < diff )
-			diff = s - diff;
+		diff += (i - up ) * 3;
+		for ( i = down ; i >= THRESH ; i-- )
+		{
+			int t = out % i;
+			if ( t >= down )
+			{
+				break;
+			}else
+			{
+				down = t;
+			}
+			while( out % i == 0 )
+			{
+				printf("%lld ",i);
+				out /= i;
+				cx *= i;
+				s = i;
+				diff = THRESH;
+			}
+		}
+		diff += ( i - down ) * 3;
 		if ( diff < THRESH )
 			diff = THRESH;
 
